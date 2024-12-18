@@ -1,4 +1,4 @@
-package com.myproject.messagepoller.utils;
+package org.myproject.orderservice.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

@@ -38,6 +38,6 @@ public class Order {
 	private double price;
 
 	@Column(nullable = false)
-	private Date orderDate;
+	private Date orderDate = new Date();
 
 }

@@ -7,12 +7,15 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.Date;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.myproject.orderservice.shared.AggregateType;
 import org.myproject.orderservice.shared.MessageType;
+import org.myproject.orderservice.utils.JsonUtils;
+import org.myproject.orderservice.utils.UUIDUtils;
 
 /**
  * @author nguyenle
@@ -50,4 +53,14 @@ public class OrderOutboxMessage {
 
 	private boolean sent = false;
 
+
+	public static OrderOutboxMessage orderCreatedOutboxMessage(Order order) {
+		OrderOutboxMessage message = new OrderOutboxMessage();
+		message.setId(UUIDUtils.getRandomUUID());
+		message.setAggregateType(AggregateType.ORDER);
+		message.setAggregateId(order.getId());
+		message.setType(MessageType.CREATED);
+		message.setPayload(JsonUtils.toJson(order));
+		return message;
+	}
 }
