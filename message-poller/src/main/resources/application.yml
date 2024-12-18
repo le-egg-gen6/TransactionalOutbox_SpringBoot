@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: message-poller
+
+  datasource:
+    message:
+      order:
+        jdbc-url:
+        username:
+        password:
+        driver-class-name:
+
+
+
+
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+
+
