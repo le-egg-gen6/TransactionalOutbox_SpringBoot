@@ -40,6 +40,6 @@ public abstract class OutboxMessage {
 	@Column(nullable = false)
 	protected Date createdAt;
 
-	private boolean sent = false;
+	private boolean sent;
 
 }
