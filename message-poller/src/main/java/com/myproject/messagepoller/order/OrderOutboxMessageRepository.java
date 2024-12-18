@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * @since 10:37 AM Wed 12/18/2024
  */
 @Repository
-public interface OrderMessageRepository extends JpaRepository<OrderMessage, String> {
+public interface OrderOutboxMessageRepository extends JpaRepository<OrderOutboxMessage, String> {
 
 }

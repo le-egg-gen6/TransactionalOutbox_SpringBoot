@@ -20,6 +20,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderMessage extends OutboxMessage {
+public class OrderOutboxMessage extends OutboxMessage {
 
 }

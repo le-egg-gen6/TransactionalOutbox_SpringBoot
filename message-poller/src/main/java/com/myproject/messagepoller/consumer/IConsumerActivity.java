@@ -8,4 +8,8 @@ public interface IConsumerActivity {
 
 	void handleCreatedMessage();
 
+	void handleConfirmedMessage();
+
+	void handleCancelledMessage();
+
 }

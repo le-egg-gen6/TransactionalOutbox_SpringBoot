@@ -29,9 +29,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 	entityManagerFactoryRef = "orderMessageEntityManagerFactory",
 	transactionManagerRef = "orderMessageTransactionManager"
 )
-public class OrderMessageConsumer
+public class OrderOutboxMessageConsumer
 	extends AbstractOutboxMessageDatasourceConfigure
-	implements IOutboxMessageConsumer<OrderMessage>, IConsumerActivity
+	implements IOutboxMessageConsumer<OrderOutboxMessage>, IConsumerActivity
 {
 
 	@Override
@@ -72,7 +72,17 @@ public class OrderMessageConsumer
 	}
 
 	@Override
-	public void consume(OrderMessage message) {
+	public void handleCancelledMessage() {
+
+	}
+
+	@Override
+	public void handleConfirmedMessage() {
+
+	}
+
+	@Override
+	public void consume(OrderOutboxMessage message) {
 
 	}
 }

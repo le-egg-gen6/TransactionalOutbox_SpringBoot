@@ -3,6 +3,7 @@ package com.myproject.messagepoller.message;
 import com.myproject.messagepoller.shared.AggregateType;
 import com.myproject.messagepoller.shared.MessageType;
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
@@ -23,14 +24,14 @@ public abstract class OutboxMessage {
 	protected String id;
 
 	@Column(nullable = false)
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	protected AggregateType aggregateType;
 
 	@Column(nullable = false)
 	protected String aggregateId;
 
 	@Column(nullable = false)
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	protected MessageType type;
 
 	@Column(columnDefinition = "TEXT")
