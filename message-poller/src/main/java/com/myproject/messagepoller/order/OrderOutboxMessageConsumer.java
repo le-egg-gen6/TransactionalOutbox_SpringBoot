@@ -22,7 +22,7 @@ import org.springframework.transaction.PlatformTransactionManager;
  * @author nguyenle
  * @since 10:18 AM Wed 12/18/2024
  */
-@Component
+@Component("orderOutboxMessageConsumer")
 @Configuration
 @EnableJpaRepositories(
 	basePackages = "com.myproject.messagepoller.order",
