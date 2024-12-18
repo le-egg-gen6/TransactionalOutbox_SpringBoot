@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/TransactionalOutbox_SpringBoot.iml" filepath="$PROJECT_DIR$/.idea/TransactionalOutbox_SpringBoot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/message-poller/message-poller.iml" filepath="$PROJECT_DIR$/message-poller/message-poller.iml" />
     </modules>
   </component>
 </project>
