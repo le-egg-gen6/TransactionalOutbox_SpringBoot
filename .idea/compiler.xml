@@ -18,10 +18,10 @@
         <module name="product-service" />
         <module name="payment-service" />
         <module name="order-service" />
-        <module name="inventory-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="inventory-service" target="17" />
       <module name="order-poller" target="17" />
     </bytecodeTargetLevel>
   </component>
