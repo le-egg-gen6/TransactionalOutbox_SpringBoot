@@ -1,8 +1,10 @@
 package com.myproject.messagepoller.order;
 
 import com.myproject.messagepoller.consumer.IOutboxMessagePoller;
-import com.myproject.messagepoller.publisher.OutboxMessagePublisher;
-import java.util.List;
+import com.myproject.messagepoller.shared.MessageType;
+import jakarta.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,22 +18,40 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderOutboxMessagePoller implements IOutboxMessagePoller {
 
+	private final OrderOutboxMessageService orderOutboxMessageService;
+
 	@Value("${outbox.topic.order}")
-	private String orderTopic;
+	private String rootTopic;
 
-	private final OutboxMessagePublisher outboxMessagePublisher;
+	private Map<MessageType, String> mapTypeToTopicName;
 
-	private final OrderOutboxMessageRepository orderOutboxMessageRepository;
+	@PostConstruct
+	private void init() {
+		mapTypeToTopicName = new HashMap<>();
+		for (MessageType messageType : MessageType.values()) {
+			mapTypeToTopicName.put(messageType, getTopicName(messageType));
+		}
+	}
 
 	@Override
 	@Scheduled(fixedRate = 60 * 1000) // 1 minutes
 	public void scheduledPollingTask() {
-		List<OrderOutboxMessage> unprocessedOutboxMessages = orderOutboxMessageRepository.findBySentIsFalse();
-
-		unprocessedOutboxMessages.forEach(outboxMessage -> {
-			outboxMessagePublisher.publish(orderTopic, outboxMessage);
-			outboxMessage.setSent(true);
-			orderOutboxMessageRepository.save(outboxMessage);
-		});
+		orderOutboxMessageService.processMessage(
+			mapTypeToTopicName.get(MessageType.CREATED),
+			MessageType.CREATED
+		);
+		orderOutboxMessageService.processMessage(
+			mapTypeToTopicName.get(MessageType.CONFIRMED),
+			MessageType.CONFIRMED
+		);
+		orderOutboxMessageService.processMessage(
+			mapTypeToTopicName.get(MessageType.CANCELLED),
+			MessageType.CANCELLED
+		);
 	}
+
+	private String getTopicName(MessageType messageType) {
+		return rootTopic + "_" + messageType.name().trim().toLowerCase();
+	}
+
 }

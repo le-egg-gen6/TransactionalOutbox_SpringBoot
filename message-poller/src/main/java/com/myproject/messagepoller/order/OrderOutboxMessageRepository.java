@@ -1,5 +1,6 @@
 package com.myproject.messagepoller.order;
 
+import com.myproject.messagepoller.shared.MessageType;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.QueryHint;
 import java.util.List;
@@ -21,6 +22,6 @@ public interface OrderOutboxMessageRepository extends JpaRepository<OrderOutboxM
 	@QueryHints({
 		@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")
 	})
-	List<OrderOutboxMessage> findBySentIsFalse();
+	List<OrderOutboxMessage> findBySentIsFalseAndType(MessageType type);
 
 }
