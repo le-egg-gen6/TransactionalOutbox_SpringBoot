@@ -9,6 +9,11 @@ spring:
         username:
         password:
         driver-class-name:
+      payment:
+        jdbc-url:
+        username:
+        password:
+        driver-class-name:
 
   jpa:
     properties:
@@ -20,4 +25,5 @@ spring:
 
 outbox:
   topic:
-    order:
+    order: test_1
+    payment: test_2

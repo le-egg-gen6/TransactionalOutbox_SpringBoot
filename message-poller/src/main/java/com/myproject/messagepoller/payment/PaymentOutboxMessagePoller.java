@@ -1,11 +1,10 @@
-package com.myproject.messagepoller.order;
+package com.myproject.messagepoller.payment;
 
 import com.myproject.messagepoller.consumer.IOutboxMessagePoller;
 import com.myproject.messagepoller.shared.MessageType;
 import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,21 +13,21 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author nguyenle
- * @since 10:18 AM Wed 12/18/2024
+ * @since 12:00 PM Fri 12/20/2024
  */
-@Component("orderOutboxMessagePoller")
-public class OrderOutboxMessagePoller implements IOutboxMessagePoller {
+@Component("paymentOutboxMessagePoller")
+public class PaymentOutboxMessagePoller implements IOutboxMessagePoller {
 
-	private final OrderOutboxMessageService orderOutboxMessageService;
+	private final PaymentOutboxMessageService paymentOutboxMessageService;
 
 	@Autowired
-	private OrderOutboxMessagePoller(
-		@Qualifier("orderOutboxMessageService") OrderOutboxMessageService orderOutboxMessageService
+	private PaymentOutboxMessagePoller(
+		@Qualifier("paymentOutboxMessageService") PaymentOutboxMessageService paymentOutboxMessageService
 	) {
-		this.orderOutboxMessageService = orderOutboxMessageService;
+		this.paymentOutboxMessageService = paymentOutboxMessageService;
 	}
 
-	@Value("${outbox.topic.order}")
+	@Value("${outbox.topic.payment}")
 	private String rootTopic;
 
 	private Map<MessageType, String> mapTypeToTopicName;
@@ -44,15 +43,15 @@ public class OrderOutboxMessagePoller implements IOutboxMessagePoller {
 	@Override
 	@Scheduled(fixedRate = 60 * 1000) // 1 minutes
 	public void scheduledPollingTask() {
-		orderOutboxMessageService.processMessage(
+		paymentOutboxMessageService.processMessage(
 			mapTypeToTopicName.get(MessageType.CREATED),
 			MessageType.CREATED
 		);
-		orderOutboxMessageService.processMessage(
+		paymentOutboxMessageService.processMessage(
 			mapTypeToTopicName.get(MessageType.CONFIRMED),
 			MessageType.CONFIRMED
 		);
-		orderOutboxMessageService.processMessage(
+		paymentOutboxMessageService.processMessage(
 			mapTypeToTopicName.get(MessageType.CANCELLED),
 			MessageType.CANCELLED
 		);
@@ -63,3 +62,4 @@ public class OrderOutboxMessagePoller implements IOutboxMessagePoller {
 	}
 
 }
+

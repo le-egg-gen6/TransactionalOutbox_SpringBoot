@@ -1,4 +1,4 @@
-package com.myproject.messagepoller.order;
+package com.myproject.messagepoller.payment;
 
 import com.myproject.messagepoller.consumer.AbstractOutboxMessageDatasourceConfigure;
 import jakarta.annotation.Priority;
@@ -17,44 +17,44 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * @author nguyenle
- * @since 4:41 PM Wed 12/18/2024
+ * @since 11:53 AM Fri 12/20/2024
  */
-@Configuration("orderOutboxDatasourceConfigure")
+@Configuration("paymentOutboxDatasourceConfigure")
 @EnableJpaRepositories(
-	basePackages = "com.myproject.messagepoller.order",
-	entityManagerFactoryRef = "orderMessageEntityManagerFactory",
-	transactionManagerRef = "orderMessageTransactionManager"
+	basePackages = "com.myproject.messagepoller.payment",
+	entityManagerFactoryRef = "paymentMessageEntityManagerFactory",
+	transactionManagerRef = "paymentMessageTransactionManager"
 )
-public class OrderOutboxMessageDatasourceConfigure extends AbstractOutboxMessageDatasourceConfigure {
+public class PaymentOutboxDatasourceConfigure extends AbstractOutboxMessageDatasourceConfigure {
 
 	@Override
 	@Priority(value = 1)
-	@Bean(name = "orderMessageDataSource")
-	@ConfigurationProperties(prefix = "spring.datasource.order")
+	@Bean(name = "paymentMessageDataSource")
+	@ConfigurationProperties(prefix = "spring.datasource.payment")
 	protected DataSource configureDataSource() {
 		return DataSourceBuilder.create().build();
 	}
 
 	@Override
 	@Priority(value = 2)
-	@Bean(name = "orderMessageEntityManagerFactory")
+	@Bean(name = "paymentMessageEntityManagerFactory")
 	protected LocalContainerEntityManagerFactoryBean configureEntityManagerFactory(
-		@Qualifier("orderMessageDataSource") DataSource dataSource,
+		@Qualifier("paymentMessageDataSource") DataSource dataSource,
 		EntityManagerFactoryBuilder builder
 	) {
 		return builder
 			.dataSource(dataSource)
-			.packages("com.myproject.messagepoller.order")
+			.packages("com.myproject.messagepoller.payment")
 			.properties(configureHibernate())
-			.persistenceUnit("orderMessageDatabase")
+			.persistenceUnit("paymentMessageDatabase")
 			.build();
 	}
 
 	@Override
 	@Priority(value = 3)
-	@Bean(name = "orderMessageTransactionManager")
+	@Bean(name = "paymentMessageTransactionManager")
 	protected PlatformTransactionManager configureTransactionManager(
-		@Qualifier("orderMessageEntityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactoryBean
+		@Qualifier("paymentMessageEntityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactoryBean
 	) {
 		return new JpaTransactionManager(Objects.requireNonNull(entityManagerFactoryBean.getObject()));
 	}
