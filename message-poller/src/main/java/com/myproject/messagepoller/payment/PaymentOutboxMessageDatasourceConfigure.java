@@ -19,13 +19,13 @@ import org.springframework.transaction.PlatformTransactionManager;
  * @author nguyenle
  * @since 11:53 AM Fri 12/20/2024
  */
-@Configuration("paymentOutboxDatasourceConfigure")
+@Configuration("OutboxMessageDatasourceConfigure")
 @EnableJpaRepositories(
 	basePackages = "com.myproject.messagepoller.payment",
 	entityManagerFactoryRef = "paymentMessageEntityManagerFactory",
 	transactionManagerRef = "paymentMessageTransactionManager"
 )
-public class PaymentOutboxDatasourceConfigure extends AbstractOutboxMessageDatasourceConfigure {
+public class PaymentOutboxMessageDatasourceConfigure extends AbstractOutboxMessageDatasourceConfigure {
 
 	@Override
 	@Priority(value = 1)
