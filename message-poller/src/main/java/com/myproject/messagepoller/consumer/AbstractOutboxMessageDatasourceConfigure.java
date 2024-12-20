@@ -17,9 +17,6 @@ public abstract class AbstractOutboxMessageDatasourceConfigure {
 	@Value("${spring.jpa.properties.hibernate.hbm2ddl.auto}")
 	private String hibernateHbm2DdlAuto;
 
-	@Value("${spring.jpa.properties.hibernate.dialect}")
-	private String hibernateDialect;
-
 	@Value("${spring.jpa.properties.hibernate.show_sql}")
 	private String hibernateShowSql;
 
@@ -37,7 +34,6 @@ public abstract class AbstractOutboxMessageDatasourceConfigure {
 	protected Map<String, Object> configureHibernate() {
 		Map<String, Object> properties = new HashMap<>();
 		properties.put("hibernate.hbm2ddl.auto", hibernateHbm2DdlAuto);
-		properties.put("hibernate.dialect", hibernateDialect);
 		properties.put("hibernate.show_sql", hibernateShowSql);
 		return properties;
 	}

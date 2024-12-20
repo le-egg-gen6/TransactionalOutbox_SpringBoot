@@ -2,9 +2,11 @@ package com.myproject.messagepoller.order;
 
 import com.myproject.messagepoller.consumer.AbstractOutboxMessageDatasourceConfigure;
 import jakarta.annotation.Priority;
+import java.util.Map;
 import java.util.Objects;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -26,6 +28,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 	transactionManagerRef = "orderMessageTransactionManager"
 )
 public class OrderOutboxMessageDatasourceConfigure extends AbstractOutboxMessageDatasourceConfigure {
+
+	@Value("${spring.hibernate.dialect.order}")
+	private String hibernateDialect;
 
 	@Override
 	@Priority(value = 1)
@@ -57,5 +62,12 @@ public class OrderOutboxMessageDatasourceConfigure extends AbstractOutboxMessage
 		@Qualifier("orderMessageEntityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactoryBean
 	) {
 		return new JpaTransactionManager(Objects.requireNonNull(entityManagerFactoryBean.getObject()));
+	}
+
+	@Override
+	protected Map<String, Object> configureHibernate() {
+		Map<String, Object> generalConfigs = super.configureHibernate();
+		generalConfigs.put("hibernate.dialect", hibernateDialect);
+		return generalConfigs;
 	}
 }

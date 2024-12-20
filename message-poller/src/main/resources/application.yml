@@ -5,22 +5,26 @@ spring:
   datasource:
     message:
       order:
-        jdbc-url:
-        username:
-        password:
-        driver-class-name:
+        jdbc-url: test_1
+        username: test_1
+        password: test_1
+        driver-class-name: test_1
       payment:
-        jdbc-url:
-        username:
-        password:
-        driver-class-name:
+        jdbc-url: test_1
+        username: test_1
+        password: test_1
+        driver-class-name: test_1
+
+  hibernate:
+    dialect:
+      order: test_1
+      payment: test_1
 
   jpa:
     properties:
       hibernate:
         hbm2ddl:
           auto: update
-        dialect: org.hibernate.dialect.MySQL8Dialect
         show_sql: true
 
 outbox:
