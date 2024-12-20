@@ -1,7 +1,11 @@
 package com.myproject.messagepoller.order;
 
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.QueryHint;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(transactionManager = "orderMessageTransactionManager")
 public interface OrderOutboxMessageRepository extends JpaRepository<OrderOutboxMessage, String> {
 
+	@Lock(LockModeType.PESSIMISTIC_READ)
+	@QueryHints({
+		@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")
+	})
 	List<OrderOutboxMessage> findBySentIsFalse();
 
 }
